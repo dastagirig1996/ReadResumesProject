@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <title>Title</title>
  {% load static %}
  <link href="{% static 'css/one.css' %}" rel="stylesheet">
@@ -95,11 +96,11 @@ body{
     bottom: -80px;
 }
 form{
-    height: 350px;
+    height: 300px;
     width: 400px;
     background-color: rgba(255,255,255,0.13);
     /* position: absolute;*/
-    transform: translate(+100%,+50%); 
+    transform: translate(+135%,+5%); 
     top: 50%;
     left: 50%;
     border-radius: 10px;
@@ -147,8 +148,8 @@ button{
     width: 100%;
     background-color: #ffffff;
     color: #080710;
-    padding: 15px 0;
-    font-size: 18px;
+    padding: 10px 0;
+    font-size: 10px;
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
@@ -182,7 +183,7 @@ button{
     
   
 
-        <form method="post" enctype="multipart/form-data">
+        <form  method="post" enctype="multipart/form-data">
             {% csrf_token %}
         <h3>Upload Resumes</h3>
 
@@ -193,7 +194,7 @@ button{
             
     </form>
 
-    <form method="post" enctype="multipart/form-data">
+    <form   method="post" enctype="multipart/form-data">
         {% csrf_token %}
     <h3>Upload Folder</h3>
 
@@ -203,20 +204,18 @@ button{
         <button type="submit">Upload</button>
     
 </form>
-<form method="post" enctype="multipart/form-data">
+
+
+<form  method="post" enctype="multipart/form-data">
     {% csrf_token %}
 <h3>Upload Excels</h3>
-
-<input type="file" accept=".xlsx, .xls, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple>
-
-    <!-- {{form.as_p}} -->
-    
-    <button type="submit">Upload</button>
-    <br><br>
-            
-            <a class="dropdown-item" href="{% url 'logout' %}"><h5>Logout</h5></a><br>
-
+        <input type="file" name = 'files' accept=".xlsx, .xls, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple>
+            <button type="submit">Upload</button>
+            <br><br>
+                    
 </form>
+
+
 </body>
 </html>
 <!-- partial -->

@@ -69,6 +69,7 @@ def process_salary(request):
         for uploaded_file in uploaded_files:    
             # import pdb; pdb.set_trace()
             fileName = uploaded_file.name
+            print(fileName)
             if fileName.endswith(".pdf"):
                 op = extract_salary_data(uploaded_file)
                 data.extend(findunique(data,op,fileName))
@@ -76,18 +77,20 @@ def process_salary(request):
             elif fileName.endswith(".docx"):
                 op = extract_text_from_docx(uploaded_file)
                 data.extend(findunique(data,op,fileName))
-
+    
             elif fileName.endswith(".xlsx"):
                 df = pd.read_excel(uploaded_file)
+                # import pdb; pdb.set_trace()
                 dfs.append(df)
             # filesList.append(fileName)
-        # excel_file = 'empty.xlsx'
+        excel_file = 'empty.xlsx'
         if data:
             df = pd.DataFrame(data)
             excel_file = 'employee_resumes_data.xlsx'
             df.to_excel(excel_file,index=False)
         elif dfs:
             merged_df = pd.concat(dfs,ignore_index=True)
+            merged_df = merged_df.drop_duplicates(subset = ['Email_id'])
             excel_file = 'merged_excels.xlsx'
             merged_df.to_excel(excel_file,index=False)
         fh = open(excel_file,'rb')
