@@ -1,0 +1,194 @@
+
+{% load static %}
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Design by foolishdeveloper.com -->
+    <title>Glassmorphism login Form Tutorial in html css</title>
+ 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <style media="screen">
+      *,
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #080710;
+}
+.background{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+.background .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+        #1845ad,
+        #23a2f6
+    );
+    left: -80px;
+    top: -80px;
+}
+.shape:last-child{
+    background: linear-gradient(
+        to right,
+        #ff512f,
+        #f09819
+    );
+    right: -30px;
+    bottom: -80px;
+}
+form{
+    height: 250px;
+    width: 400px;
+    background-color: rgba(255,255,255,0.13);
+    /* position: absolute; */
+    /* transform: translate(-50%,-50%); */
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 50px 35px;
+}
+form *{
+    font-family: 'Poppins',sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+form h3{
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
+    /* text-align: center; */
+}
+
+label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+::placeholder{
+    color: #e5e5e5;
+}
+button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #526aba;
+    color: #000000;
+    padding: 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.social{
+  margin-top: 30px;
+  display: flex;
+}
+.social div{
+  background: red;
+  width: 150px;
+  border-radius: 3px;
+  padding: 5px 10px 10px 5px;
+  background-color: rgba(255,255,255,0.27);
+  color: #eaf0fb;
+  text-align: center;
+}
+.social div:hover{
+  background-color: rgba(255,255,255,0.47);
+}
+.social .fb{
+  margin-left: 25px;
+}
+.social i{
+  margin-right: 4px;
+}
+.cont{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+}
+
+    </style>
+</head>
+<body>
+    <div>
+        <form id="uploadForm" method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <h3>Upload Resumes</h3>
+        
+            <!-- Input for individual files -->
+            <input id="filesInput" type="file" name="files" accept="all files" multiple >
+            <button id="uploadButton" type="button">Upload</button>
+
+        </form>
+
+        <form id="uploadForm" method="post"  enctype="multipart/form-data">
+                {% csrf_token %}
+            <h3>Upload Folder</h3>
+            <input id="folderInput" type="file" name="files" webkitdirectory directory multiple >
+            <button id="uploadButton" type="button">Upload</button>
+            <br><br>
+        </form>
+        <form id="uploadForm" method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+        <h3>Upload excels</h3>
+        <input id="folderInput" type="file" name="files" webkitdirectory directory multiple >
+        <button id="uploadButton" type="button">Upload</button>
+        <br><br>
+    </form>
+       
+<script>
+    document.getElementById("uploadButton").addEventListener("click", function() {
+        var filesInput = document.getElementById("filesInput");
+        var folderInput = document.getElementById("folderInput");
+        
+        // Check if files input has files selected
+        if (filesInput.files.length > 0) {
+            // document.getElementById("folderInput").style.display = "none"; // Hide folder input
+            document.getElementById("uploadForm").submit(); // Submit form with files input
+        } else {
+            // document.getElementById("filesInput").style.display = "none"; // Hide files input
+            folderInput.click(); // Trigger click on folder input
+        }
+    });
+</script>
+        
+</div>
+</body>
+</html>
+
