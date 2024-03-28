@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    html, body {
+      height: 100%; /* Set height to 100% */
+    }
+    body {
+      /* Specify the background image URL */
+      background-image: url("{% static 'images/bg1.jpg' %}");
+      /* Adjust background image properties */
+      background-size: cover; /* Cover the entire container */
+      background-position: center; /* Center the background image */
+      background-repeat: no-repeat; /* Do not repeat the background image */
+      margin: 0; /* Remove default margin */
+      padding: 0; /* Remove default padding */
+    }
+    .custom-file-input {
+      color: transparent;
+    }
+    .custom-file-input::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+    .custom-file-input::before {
+      content: 'Select File';
+      color: white;
+      display: inline-block;
+      background: #007bff;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 20px;
+      outline: none;
+      white-space: nowrap;
+      cursor: pointer;
+      font-weight: 400;
+    }
+    .custom-file-input:hover::before {
+      background: #0056b3;
+    }
+    .custom-file-input:active::before {
+      background: #004b9b;
+    }
+    .custom-file-input:disabled::before {
+      background: #b8b8b8;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid d-flex align-items-center justify-content-center h-100">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center mb-4">
+          <img src="{% static 'images/ajacs_logo.jfif' %}" alt="Logo" height="100">
+        </div>
+        <div class="col-md-4 offset-md-4">
+          <form method="post" enctype="multipart/form-data">
+            <div class="input-group mb-3">
+    
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="file1" name="files" aria-describedby="fileHelp1" onchange="updateFileName('file1')" multiple>
+                <label class="custom-file-label" for="file1">Choose Resumes</label>
+                {% csrf_token %}
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Upload</button>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="file2" name="files" aria-describedby="fileHelp2" onchange="updateFileName('file2')" webkitdirectory directory multiple>
+                <label class="custom-file-label" for="file2">Choose Folder</label>
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Upload</button>
+              </div>
+            </div>
+            <div class="input-group mb-3">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="file3" name="files" aria-describedby="fileHelp3" onchange="updateFileName('file3')" accept=".xlsx, .xls, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple>
+                <label class="custom-file-label" for="file3">Choose Excels</label>
+              </div>
+              <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Upload</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function updateFileName(inputId) {
+      const input = document.getElementById(inputId);
+      const label = input.nextElementSibling;
+      const fileName = input.files[0].name;
+      label.innerHTML = fileName;
+    }
+  </script>
+</body>
+</html>
