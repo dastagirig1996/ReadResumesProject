@@ -36,16 +36,22 @@ def nameFromEmail(data):
     except:
         return None
 def nameLine1(data):
-        if not isinstance(data,list):
-            data = data.split("\n")
-        names = data[0][:20]
-        return names
+        try:
+            if not isinstance(data,list):
+                data = data.split("\n")
+            names = data[0][:20]
+            return names
+        except:
+            return "NA"
 
 def nameLine2(data):
-        if not isinstance(data,list):
-            data = data.split("\n")
-        names = data[1][:20]
-        return names
+        try:
+            if not isinstance(data,list):
+                data = data.split("\n")
+            names = data[1][:20]
+            return names
+        except:
+            return "NA"
 
 
 

@@ -12,12 +12,14 @@ def NameFile(file):
         return match.group(1)
     else:
         return file
-
+duplicates_count = 0
 def findunique(ls,op,file):
+    global duplicates_count
     op[0].setdefault("NamefromFile",NameFile(file))
     if ls is not None:
         for i in ls:
             if i['Email_id'] == op[0]['Email_id']:
+               duplicates_count +=1
                return []
     return op
 
@@ -25,13 +27,15 @@ def findunique(ls,op,file):
 def process_salary(request):
     if request.method == 'POST':
         uploaded_files =  request.FILES.getlist('files')
-        print(uploaded_files)
         data = []
         dfs = []
+        print(len(uploaded_files))
+        count= 1
         for uploaded_file in uploaded_files:    
             # import pdb; pdb.set_trace()
+            print(count)
+            count+=1
             fileName = uploaded_file.name
-            print(fileName)
             if fileName.endswith(".pdf"):
                 op = extract_salary_data(uploaded_file)
                 data.extend(findunique(data,op,fileName))
@@ -56,11 +60,16 @@ def process_salary(request):
                 merged_df = merged_df.drop_duplicates(subset = ['Email_id'])
                 excel_file = 'merged_excels.xlsx'
                 merged_df.to_excel(excel_file,index=False)
-            fh = open(excel_file,'rb')
-            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-            response['Content-Disposition'] = 'inline; filename='+excel_file
-            fh.close()
-            return response   
+            with open(excel_file,'rb') as fh:
+                response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+                response['Content-Disposition'] = 'inline; filename='+excel_file
+                # fh.close()
+                global duplicates_count
+                print('duplicates',duplicates_count)
+                # global duplicates_count
+                duplicates_count = 0
+                return response   
         except FileNotFoundError as fe:
             return HttpResponse("Please choose atleast one file......!!")
     return render(request, 'temp2.html')
+ 
