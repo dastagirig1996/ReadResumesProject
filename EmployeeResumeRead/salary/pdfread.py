@@ -1,6 +1,6 @@
 import pdfplumber
 import re
-import docx
+import docx_custom
 
 def extract_phone(data):
     pattern = r"(?:\+\d{1,3}\s?)?\d{10}"
@@ -79,9 +79,9 @@ def extract_salary_data(pdf_path):
 
 def extract_text_from_docx(file):
     salary_data = []
-
-    doc = docx.opendocx(file)
-    data = docx.getdocumenttext(doc)
+    
+    doc = docx_custom.opendocx(file)
+    data = docx_custom.getdocumenttext(doc)
      
     phone = extract_phone(data)
     email = extract_email(data)
