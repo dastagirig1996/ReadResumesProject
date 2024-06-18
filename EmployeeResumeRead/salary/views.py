@@ -1,4 +1,4 @@
-
+ 
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.http import HttpResponse
 from .forms import *
@@ -23,7 +23,6 @@ def findunique(ls,op,file):
                return []
     return op
 
-# @login_required(login_url='login')
 def process_salary(request):
     if request.method == 'POST':
         uploaded_files =  request.FILES.getlist('files')
@@ -63,13 +62,13 @@ def process_salary(request):
             with open(excel_file,'rb') as fh:
                 response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
                 response['Content-Disposition'] = 'inline; filename='+excel_file
-                # fh.close()
                 global duplicates_count
                 print('duplicates',duplicates_count)
-                # global duplicates_count
                 duplicates_count = 0
                 return response   
         except FileNotFoundError as fe:
             return HttpResponse("Please choose atleast one file......!!")
+        except Exception as e:
+            print(f"An error occurred: {e}")
     return render(request, 'temp2.html')
  

@@ -1,6 +1,6 @@
 import pdfplumber
 import re
-import docx_custom
+from . import docx_custom
 
 def extract_phone(data):
     pattern = r"(?:\+\d{1,3}\s?)?\d{10}"
