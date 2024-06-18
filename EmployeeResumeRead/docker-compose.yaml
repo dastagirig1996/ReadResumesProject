@@ -12,7 +12,7 @@ services:
       ports:
         - "8001:8000"
 
-    ngnix:
+    nginx:
       container_name: nginx
       image: nginx:latest
       volumes:
