@@ -1,25 +1,20 @@
-version:'3.8'
+version: '3.8'
 
 services:
-    
-    web:
-      container_name: resumecon
-      build:
-        context: .
+  web:
+    container_name: resumecon
+    build:
+      context: .
+    command: gunicorn --bind "0.0.0.0:8000" EmployeeSalary.wsgi:application
+    ports:
+      - "8001:8000"
 
-      command: gunicorn --bind "0.0.0.0:8000" EmployeeSalary.wsgi:application
-
-      ports:
-        - "8001:8000"
-
-    nginx:
-      container_name: nginx
-      image: nginx:latest
-      volumes:
-         - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      
-      ports:
-         - "81:80"
-
-      depends_on:
-          - web
+  nginx:
+    container_name: nginx
+    image: nginx:latest
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "81:80"
+    depends_on:
+      - web

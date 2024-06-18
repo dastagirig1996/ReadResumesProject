@@ -2,3 +2,4 @@ django
 docx
 pdfplumber
 pandas
+openpyxl
