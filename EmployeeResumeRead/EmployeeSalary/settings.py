@@ -106,7 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
-TIME_ZONE = "UTC"
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -125,7 +125,7 @@ MEDIA_URL = '/media/'
 
 
 
-DATA_UPLOAD_MAX_NUMBER_FILES = 1000
+DATA_UPLOAD_MAX_NUMBER_FILES = 1100
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
