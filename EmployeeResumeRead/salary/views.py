@@ -68,15 +68,13 @@ async def process_salary(request):
         data = []
         dfs = []
         tasks = []
-        count = 0
+        count = 1
 
         for uploaded_file in uploaded_files:
-            print(count)
             count += 1
             tasks.append(process_file(uploaded_file, data, dfs))
 
         await asyncio.gather(*tasks)
-        print(data,type(data))
         excel_file = 'empty.xlsx'
         try:
             if data:
