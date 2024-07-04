@@ -2,7 +2,7 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.http import HttpResponse
 from .forms import *
-from .pdfread import extract_pdf_data, extract_text_from_docx
+from .pdfread import extract_pdf_data, extract_text_from_docx, extract_text_from_docfile
 import re
 import asyncio
 import pandas as pd
@@ -37,9 +37,12 @@ def findunique(ls,op,file):
     op[0] = dict(items)
     if ls is not None:
         for i in ls:
-            if i['Email_id'] == op[0]['Email_id']:
-               duplicates_count +=1
-               return []
+            if op[0]['Email_id']!=None:
+                if i['Email_id'] == op[0]['Email_id']:
+                    duplicates_count +=1
+                    print('act',i['Email_id'],i)
+                    print('exp',op[0]['Email_id'],op[0])
+                    return []
     return op
 
 async def process_file(uploaded_file, data, dfs):
@@ -50,6 +53,10 @@ async def process_file(uploaded_file, data, dfs):
 
     elif fileName.endswith(".docx"):
         op = await extract_text_from_docx(uploaded_file)
+        data.extend(findunique(data, op, fileName))
+
+    elif fileName.endswith(".doc"):
+        op = await extract_text_from_docfile(uploaded_file)
         data.extend(findunique(data, op, fileName))
 
     elif fileName.endswith(".xlsx"):
@@ -96,6 +103,6 @@ async def process_salary(request):
         except FileNotFoundError as fe:
             return HttpResponse("Please choose atleast one file......!!")
         except Exception as e:
-            print(f"An error occurred: {e}")
+            return HttpResponse(f"An error occurred: {e}")
     return render(request, 'temp2.html')
  

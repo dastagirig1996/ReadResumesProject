@@ -3,8 +3,9 @@ import re
 from . import docx_custom
 import tempfile
 from . import docx_custom
-import pandas as pd
-import asyncio
+import win32com.client
+import pythoncom
+
 technologies = ['databricks', 'JUnit', 'cucumber', 'vue', 'nunit', 'windows', 'cocoa touch', 'Prometheus', 'user experience (ux) design', 'Postman', 'zend', 'azure data services', 'restful apis', 'jasmine', 'rollup', 'microsoft dynamics', 'github actions', 'nuget', 'arcore', 'hyperledger', 'tensorflow', 'Ansible', 'TestRail', 'boto3', 'Burp Suite', 'Gatling', 'parcel', 'Git', 'adobe xd', 'php', 'ant', 
 'shiny', 'jenkins', 'teamcity', 'caret', 'dapp development', 'jakarta ee', 'salesforce', 'MongoDB', 'user interface (ui) design', 
 'scrapy', 'cypress', 'symfony', 'terraform', 'tdd', 'github', 'embedded c', 'httpx', 'gitlab ci', 'owasp', 'codeception', 'JSON', 
@@ -40,10 +41,10 @@ def extract_info(data):
     skills = set()
     if not isinstance(data, list):
         data = data.split('\n')
-        name_line1 = data[0][:20] if len(data) > 0 else "NA"
-        name_line2 = data[1][:20] if len(data) > 1 else "NA"
-        dic["Name_Line1"] = name_line1
-        dic["Name_Line2"] = name_line2
+    name_line1 = data[0][:20] if len(data) > 0 else "NA"
+    name_line2 = data[1][:20] if len(data) > 1 else "NA"
+    dic["Name_Line1"] = name_line1
+    dic["Name_Line2"] = name_line2
 
     for line in data:
         if not phone_flag:
@@ -147,11 +148,41 @@ async def extract_pdf_data(uploaded_file):
     return salary_data
 
 async def extract_text_from_docx(file):
-    doc = docx_custom.opendocx(file)
-    data = docx_custom.getdocumenttext(doc)
+    docx = docx_custom.opendocx(file)
+    data = docx_custom.getdocumenttext(docx)
     extract_dic = extract_info(data)
     salary_data = [extract_dic]
     return salary_data
+
+async def extract_text_from_docfile(filedata):
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(filedata.read())
+        temp_file_path = temp_file.name
+    filepath = repr(temp_file_path)[1:-1]
+    pythoncom.CoInitialize()
+    try:
+        word = win32com.client.Dispatch("Word.Application")
+        doc = word.Documents.Open(filepath)
+        content = []
+        for paragraph in doc.Paragraphs:
+            content.append(paragraph.Range.Text)
+        doc.Close()
+        word.Quit()
+    finally:
+        pythoncom.CoUninitialize()
+    extract_dic = extract_info(content)
+    salary_data = [extract_dic]
+    return salary_data
+
+
+
+
+
+
+    # extract_dic = extract_info(doc)
+    # salary_data = [extract_dic]
+    # return salary_data
+
 
 
 #****************************
