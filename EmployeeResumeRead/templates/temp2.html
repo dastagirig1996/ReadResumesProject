@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,17 +7,15 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     html, body {
-      height: 100%; /* Set height to 100% */
+      height: 100%;
     }
     body {
-      /* Specify the background image URL */
       background-image: url("https://aja-bucket.s3.ap-south-1.amazonaws.com/bg1.jpg");
-      /* Adjust background image properties */
-      background-size: cover; /* Cover the entire container */
-      background-position: center; /* Center the background image */
-      background-repeat: no-repeat; /* Do not repeat the background image */
-      margin: 0; /* Remove default margin */
-      padding: 0; /* Remove default padding */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      margin: 0;
+      padding: 0;
     }
     .custom-file-input {
       color: transparent;
@@ -61,11 +58,10 @@
         <div class="col-md-4 offset-md-4">
           <form method="post" enctype="multipart/form-data">
             <div class="input-group mb-3">
-    
               <div class="custom-file">
                 <input type="file" class="custom-file-input" id="file1" name="files" aria-describedby="fileHelp1" onchange="updateFileName('file1')" multiple>
                 <label class="custom-file-label" for="file1">Choose Resumes</label>
-            {% csrf_token %}
+                {% csrf_token %}
               </div>
               <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">Upload</button>
@@ -89,6 +85,7 @@
                 <button class="btn btn-primary" type="submit">Upload</button>
               </div>
             </div>
+            <input type="hidden" id="folderName" name="folderName">
           </form>
         </div>
       </div>
@@ -101,6 +98,12 @@
       const label = input.nextElementSibling;
       const fileName = input.files[0].name;
       label.innerHTML = fileName;
+
+      if (inputId === 'file2' && input.files.length > 0) {
+        const fullPath = input.files[0].webkitRelativePath;
+        const folderName = fullPath.split('/')[0];
+        document.getElementById('folderName').value = folderName;
+      }
     }
 
     document.addEventListener("DOMContentLoaded", function() {
