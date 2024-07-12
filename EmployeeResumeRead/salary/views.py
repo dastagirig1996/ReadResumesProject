@@ -6,6 +6,8 @@ from .pdfread import extract_pdf_data, extract_text_from_docx, extract_text_from
 import re
 import asyncio
 import pandas as pd
+from zipfile import BadZipFile
+
 
 
 
@@ -45,21 +47,31 @@ def findunique(ls,op,file):
 
 async def process_file(uploaded_file, data, dfs):
     fileName = uploaded_file.name
-    if fileName.endswith(".pdf"):
-        op = await extract_pdf_data(uploaded_file)
-        data.extend(findunique(data, op, fileName))
+    try:
+        if fileName.endswith(".pdf"):
+            op = await extract_pdf_data(uploaded_file)
+            data.extend(findunique(data, op, fileName))
 
-    elif fileName.endswith(".docx"):
-        op = await extract_text_from_docx(uploaded_file)
-        data.extend(findunique(data, op, fileName))
+        elif fileName.endswith(".docx"):
+            op = await extract_text_from_docx(uploaded_file)
+            data.extend(findunique(data, op, fileName))
 
-    elif fileName.endswith(".doc"):
-        op = await extract_text_from_docfile(uploaded_file)
-        data.extend(findunique(data, op, fileName))
+        elif fileName.endswith(".doc"):
+            op = await extract_text_from_docfile(uploaded_file)
+            data.extend(findunique(data, op, fileName))
 
-    elif fileName.endswith(".xlsx"):
-        df = await read_excel(uploaded_file)
-        dfs.append(df)
+        elif fileName.endswith(".xlsx"):
+            df = await read_excel(uploaded_file)
+            dfs.append(df)
+        else:
+            print(f"Unsupported file format: {fileName}")
+
+    except BadZipFile as e:
+        print(f"BadZipFile error for file '{fileName}': {str(e)}")
+        # Handle the error or log it as per your application's requirements
+    except Exception as e:
+        print(f"Error processing file '{fileName}': {str(e)} please modify this file '{fileName}' to either pdf or docx")
+        # Handle th
 
 async def read_excel(file):
     loop = asyncio.get_event_loop()
