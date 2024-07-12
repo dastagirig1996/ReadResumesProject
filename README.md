@@ -1,6 +1,7 @@
 # ReadResumesProject
 
 ReadResumesProject
+
 📄 A Python-based application designed to automate the process of reading and extracting information from resumes. Effortlessly parse various resume formats to gather key details such as name, contact information, education, and work experience.
 
 🚀 Key Features:
