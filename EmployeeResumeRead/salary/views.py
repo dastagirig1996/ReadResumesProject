@@ -8,6 +8,10 @@ import asyncio
 import pandas as pd
 from zipfile import BadZipFile
 
+def clean_string(s):
+    ILLEGAL_CHARACTERS_RE = re.compile(r'[\000-\010]|[\013-\014]|[\016-\037]')
+    return ILLEGAL_CHARACTERS_RE.sub('', s)
+
 
 
 
@@ -97,26 +101,27 @@ async def process_salary(request):
 
         await asyncio.gather(*tasks)
         excel_file = 'empty.xlsx'
-        try:
-            if data:
-                df = pd.DataFrame(data)
-                excel_file = f'{folder_name}resumes.xlsx'
-                df.to_excel(excel_file,index=False)
-            elif dfs:
-                merged_df = pd.concat(dfs,ignore_index=True)
-                merged_df = merged_df.drop_duplicates(subset = ['Email_id'])
-                excel_file =f'{folder_name}_merged_excels.xlsx'
-                merged_df.to_excel(excel_file,index=False)
-            with open(excel_file,'rb') as fh:
-                response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
-                response['Content-Disposition'] = 'inline; filename='+excel_file
-                global duplicates_count
-                print('duplicates',duplicates_count)
-                duplicates_count = 0
-                return response   
-        except FileNotFoundError as fe:
-            return HttpResponse("Please choose atleast one file......!!")
-        except Exception as e:
-            return HttpResponse(f"An error occurred: {e}")
+        # try:
+        if data:
+            cleaned_data = [{k: clean_string(str(v)) for k, v in item.items()} for item in data]
+            df = pd.DataFrame(cleaned_data)
+            excel_file = f'{folder_name}_resumes.xlsx'
+            df.to_excel(excel_file,index=False)
+        elif dfs:
+            merged_df = pd.concat(dfs,ignore_index=True)
+            merged_df = merged_df.drop_duplicates(subset = ['Email_id'])
+            excel_file =f'{folder_name}_merged_excels.xlsx'
+            merged_df.to_excel(excel_file,index=False)
+        with open(excel_file,'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'inline; filename='+excel_file
+            global duplicates_count
+            print('duplicates',duplicates_count)
+            duplicates_count = 0
+            return response   
+        # except FileNotFoundError as fe:
+        #     return HttpResponse("Please choose atleast one file......!!")
+        # except Exception as e:
+        #     return HttpResponse(f"An error occurred: {e}")
     return render(request, 'temp3.html')
  
