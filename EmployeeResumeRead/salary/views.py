@@ -57,9 +57,12 @@ async def process_file(uploaded_file, data, dfs):
             data.extend(findunique(data, op, fileName))
 
         elif fileName.endswith(".doc"):
-            op = await extract_text_from_docfile(uploaded_file)
-            data.extend(findunique(data, op, fileName))
-
+            try:
+                op = await extract_text_from_docfile(uploaded_file)
+                if op is not None:
+                    data.extend(findunique(data, op, fileName))
+            except:
+                pass
         elif fileName.endswith(".xlsx"):
             df = await read_excel(uploaded_file)
             dfs.append(df)

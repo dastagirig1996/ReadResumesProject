@@ -155,24 +155,27 @@ async def extract_text_from_docx(file):
     return salary_data
 
 async def extract_text_from_docfile(filedata):
-    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-        temp_file.write(filedata.read())
-        temp_file_path = temp_file.name
-    filepath = repr(temp_file_path)[1:-1]
-    pythoncom.CoInitialize()
     try:
-        word = win32com.client.Dispatch("Word.Application")
-        doc = word.Documents.Open(filepath)
-        content = []
-        for paragraph in doc.Paragraphs:
-            content.append(paragraph.Range.Text)
-        doc.Close()
-        word.Quit()
-    finally:
-        pythoncom.CoUninitialize()
-    extract_dic = extract_info(content)
-    salary_data = [extract_dic]
-    return salary_data
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_file.write(filedata.read())
+            temp_file_path = temp_file.name
+        filepath = repr(temp_file_path)[1:-1]
+        pythoncom.CoInitialize()
+        try:
+            word = win32com.client.Dispatch("Word.Application")
+            doc = word.Documents.Open(filepath)
+            content = []
+            for paragraph in doc.Paragraphs:
+                content.append(paragraph.Range.Text)
+            doc.Close()
+            word.Quit()
+        finally:
+            pythoncom.CoUninitialize()
+        extract_dic = extract_info(content)
+        salary_data = [extract_dic]
+        return salary_data
+    except:
+        return None
 
 
 
