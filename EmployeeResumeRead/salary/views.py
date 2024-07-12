@@ -40,8 +40,6 @@ def findunique(ls,op,file):
             if op[0]['Email_id']!=None:
                 if i['Email_id'] == op[0]['Email_id']:
                     duplicates_count +=1
-                    print('act',i['Email_id'],i)
-                    print('exp',op[0]['Email_id'],op[0])
                     return []
     return op
 
@@ -72,6 +70,7 @@ async def read_excel(file):
 async def process_salary(request):
     if request.method == 'POST':
         uploaded_files =  request.FILES.getlist('files')
+        folder_name = request.POST.get('folderName', 'default_folder')
         data = []
         dfs = []
         tasks = []
@@ -86,12 +85,12 @@ async def process_salary(request):
         try:
             if data:
                 df = pd.DataFrame(data)
-                excel_file = 'employee_resumes_data.xlsx'
+                excel_file = f'{folder_name}resumes.xlsx'
                 df.to_excel(excel_file,index=False)
             elif dfs:
                 merged_df = pd.concat(dfs,ignore_index=True)
                 merged_df = merged_df.drop_duplicates(subset = ['Email_id'])
-                excel_file = 'merged_excels.xlsx'
+                excel_file =f'{folder_name}_merged_excels.xlsx'
                 merged_df.to_excel(excel_file,index=False)
             with open(excel_file,'rb') as fh:
                 response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
@@ -104,5 +103,5 @@ async def process_salary(request):
             return HttpResponse("Please choose atleast one file......!!")
         except Exception as e:
             return HttpResponse(f"An error occurred: {e}")
-    return render(request, 'temp2.html')
+    return render(request, 'temp3.html')
  

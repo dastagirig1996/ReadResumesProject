@@ -4,7 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>File Upload</title>
-https://aja-bucket.s3.ap-south-1.amazonaws.com/bg1.jpg");
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      background-image: url("https://aja-bucket.s3.ap-south-1.amazonaws.com/bg1.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -47,7 +53,7 @@ https://aja-bucket.s3.ap-south-1.amazonaws.com/bg1.jpg");
     <div class="container">
       <div class="row">
         <div class="col-md-12 text-center mb-4">
-<img src="https://aja-bucket.s3.ap-south-1.amazonaws.com/ajacs_logo.jfif" alt="Logo" height="100">
+          <img src="https://aja-bucket.s3.ap-south-1.amazonaws.com/ajacs_logo.jfif" alt="Logo" height="100"> 
         </div>
         <div class="col-md-4 offset-md-4">
           <form method="post" enctype="multipart/form-data">
@@ -85,21 +91,21 @@ https://aja-bucket.s3.ap-south-1.amazonaws.com/bg1.jpg");
       </div>
     </div>
   </div>
- 
+
   <script>
     function updateFileName(inputId) {
       const input = document.getElementById(inputId);
       const label = input.nextElementSibling;
       const fileName = input.files[0].name;
       label.innerHTML = fileName;
- 
+
       if (inputId === 'file2' && input.files.length > 0) {
         const fullPath = input.files[0].webkitRelativePath;
         const folderName = fullPath.split('/')[0];
         document.getElementById('folderName').value = folderName;
       }
     }
- 
+
     document.addEventListener("DOMContentLoaded", function() {
       const forms = document.querySelectorAll("form");
       forms.forEach(form => {
@@ -118,4 +124,3 @@ https://aja-bucket.s3.ap-south-1.amazonaws.com/bg1.jpg");
   </script>
 </body>
 </html>
-has context menu
