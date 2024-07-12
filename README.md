@@ -44,10 +44,15 @@ Access the application in your web browser at http://127.0.0.1:8000/
 📁 Project Structure:
 
 main.py: Entry point of the application.
+
 resume_parser.py: Contains the logic for parsing resumes.
+
 utils/: Utility functions and helper modules.
+
 samples/: Sample resumes for testing.
+
 output/: Directory where the extracted data will be stored.
+
 🤝 Contributing: Feel free to contribute! Follow the standard GitHub workflow: Fork, Branch, Commit, Push, and Open a Pull Request.
 
 📄 License: This project is licensed under the MIT License.
