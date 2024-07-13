@@ -3,3 +3,7 @@ from EmployeeSalary.wsgi import application  # Replace 'myproject' with your act
 
 if __name__ == '__main__':
     serve(application, host='0.0.0.0', port=8888, channel_timeout=3600)  # Timeout in seconds
+
+
+
+

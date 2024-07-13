@@ -3,3 +3,5 @@ docx
 pdfplumber
 pandas
 openpyxl
+waitress
+gunicorn
